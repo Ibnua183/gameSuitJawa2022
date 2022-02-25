@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        .container {
+            margin: 0 auto;
+            width: 700px;
+            position: relative;
+        }
+
+        .kotak1 {
+            height: 300px;
+            border: 5px solid white;
+            border-radius: 40px 40px 0 0;
+            text-align: center;
+            background-image: url(prism.png);
+
+        }
+
+        .kotak2 {
+            height: 300px;
+            border: 5px solid white;
+            border-radius: 0 0 40px 40px;
+            text-align: center;
+            background-image: url(prism.png);
+        }
+
+        .kotak2 img {
+            margin-left: 50px;
+            margin-right: 50px;
+            transition: 3s;
+            border-radius: 50%;
+        }
+
+        .kotak2 img:hover{
+            color: white;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px 5px white;
+            transition: 3s;
+        }
+
+        .hasil {
+            width: 150px;
+            height: 60px;
+            border: 5px solid salmon;
+            position: absolute;
+            left: 50%;
+            margin-left: -75px;
+            top: 50%;
+            margin-top: -30px;
+            background-color: white;
+            border-radius: 30px;
+            z-index: 1;
+            text-align: center;
+            line-height: 60px;
+            color:salmon;
+            font-size: 26px;
+        }
+
+        .kotak1 .komputer {
+            margin: 0 18px;
+            margin-top: 80px;
+        }
+
+        .kotak2 .pemain {
+            margin: 0 18px;
+            margin-top: 80px;
+
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="kotak1">
+            <img id="komputer" class="komputer" src="orang.png" width="150px">
+        </div>
+        <div class="kotak2">
+            <img id="orang" class="pemain" src="orang.png" width="150px">
+            <img id="semut" class="pemain" src="semut.png" width="150px">
+            <img id="gajah" class="pemain" src="gajah.png" width="150px">
+        </div>
+        <div class="hasil">
+            <span id="hasil">Mulai!</span>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $('.pemain').click(function(){
+            let pilihan = $(this).attr('id');
+            console.log(pilihan);
+
+            let bot = Math.random();
+            let pilihan_bot = '';
+
+            if(bot >= 0 && bot <= 0.3){
+                pilihan_bot = 'gajah';
+            } else if(bot >= 0.3 &&  bot <= 0.7){
+                pilihan_bot = 'orang';
+            }else{
+                pilihan_bot = 'semut';
+            }
+
+            console.log(pilihan_bot);
+
+            let hasil = '';
+            if(pilihan == 'gajah'){
+                if(pilihan_bot == 'gajah'){
+                    hasil = 'Seri';
+                }else if(pilihan_bot == 'orang'){
+                    hasil = 'Menang';
+                }else{
+                    hasil = 'Kalah';
+                }
+
+            }else if(pilihan == 'orang'){
+                if(pilihan_bot == 'orang'){
+                    hasil = 'Seri';
+                }else if(pilihan_bot == 'semut'){
+                    hasil = 'Menang';
+                }else{
+                    hasil = 'Kalah';
+                }
+
+            }else{
+                if(pilihan_bot == 'semut'){
+                    hasil = 'Seri';
+                }else if(pilihan_bot == 'gajah'){
+                    hasil = 'Menang';
+                }else{
+                    hasil = 'Kalah';
+                }
+            }
+
+            // Proses Putar2
+            let random = ['gajah','orang','semut'];
+            let index = 0;
+            let hitung = 0;
+
+            // setInterval untuk looping disetiap x milisecond
+            let putar = setInterval(function () {
+
+                // Jika index gambar = 3, kembalikan ke awal lagi di index 0
+                if (index==3) { 
+                    index=0;
+                }
+                
+                $('#komputer').attr('src', random[index] + '.png');
+                index++;
+                hitung++;
+
+                // Jika sudah berputar 10 kali, hentikan
+                if(hitung==10){
+
+                    // Untuk keluar dari looping interval
+                    clearInterval(putar); 
+
+                    $('#hasil').text(hasil);
+
+                    $('#komputer').attr('src', pilihan_bot + '.png');
+                }
+
+                // Looping setiap 100 milisecond
+            }, 100);
+
+            // End Proses Putar2
+
+            //console.log(hasil);
+
+          
+        });
+    </script>
+</body>
+</html>
